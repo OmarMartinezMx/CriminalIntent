@@ -1,7 +1,6 @@
-package mx.omarmartinez.criminalintent.fragments
+package mx.omarmartinez.criminalintent.fragments.crimelist
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
-import mx.omarmartinez.criminalintent.CrimeListAdapter
-import mx.omarmartinez.criminalintent.CrimeListViewModel
 import mx.omarmartinez.criminalintent.databinding.FragmentCrimeListBinding
 
 class CrimeListFragment :Fragment() {

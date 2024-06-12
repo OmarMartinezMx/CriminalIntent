@@ -1,4 +1,4 @@
-package mx.omarmartinez.criminalintent
+package mx.omarmartinez.criminalintent.fragments.crimelist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,6 +6,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import mx.omarmartinez.criminalintent.models.Crime
+import mx.omarmartinez.criminalintent.repositories.CrimeRepository
 
 class CrimeListViewModel : ViewModel() {
     private val crimeRepository = CrimeRepository.get()

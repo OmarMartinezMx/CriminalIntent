@@ -3,7 +3,7 @@ package mx.omarmartinez.criminalintent.database
 import androidx.room.Dao
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import mx.omarmartinez.criminalintent.Crime
+import mx.omarmartinez.criminalintent.models.Crime
 import java.util.UUID
 
 @Dao

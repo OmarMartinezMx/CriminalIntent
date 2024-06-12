@@ -1,21 +1,21 @@
-package mx.omarmartinez.criminalintent
+package mx.omarmartinez.criminalintent.repositories
 
 import android.content.Context
 import androidx.room.Room
 import kotlinx.coroutines.flow.Flow
 import mx.omarmartinez.criminalintent.database.CrimeDatabase
+import mx.omarmartinez.criminalintent.models.Crime
 import java.util.UUID
 
 private const val DATABASE_NAME = "crime-database"
 
 class CrimeRepository private constructor(context: Context){
 
-    private val database: CrimeDatabase = Room
-        .databaseBuilder(
-            context.applicationContext,
-            CrimeDatabase::class.java,
-            DATABASE_NAME
-        )
+    private val database: CrimeDatabase = Room.databaseBuilder(
+        context.applicationContext,
+        CrimeDatabase::class.java,
+        DATABASE_NAME
+    )
         .createFromAsset(DATABASE_NAME)
         .build()
 
@@ -31,7 +31,7 @@ class CrimeRepository private constructor(context: Context){
             }
         }
 
-        fun get(): CrimeRepository{
+        fun get(): CrimeRepository {
             return INSTANCE ?: throw IllegalStateException("CrimeRepository must be initialized")
         }
     }

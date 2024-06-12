@@ -1,4 +1,4 @@
-package mx.omarmartinez.criminalintent
+package mx.omarmartinez.criminalintent.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

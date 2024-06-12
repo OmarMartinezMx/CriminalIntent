@@ -1,10 +1,11 @@
-package mx.omarmartinez.criminalintent
+package mx.omarmartinez.criminalintent.fragments.crimelist
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import mx.omarmartinez.criminalintent.models.Crime
 import mx.omarmartinez.criminalintent.databinding.ListItemCrimeBinding
 import java.text.DateFormat
 

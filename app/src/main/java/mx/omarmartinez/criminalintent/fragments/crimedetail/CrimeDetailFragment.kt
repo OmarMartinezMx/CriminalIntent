@@ -1,4 +1,4 @@
-package mx.omarmartinez.criminalintent
+package mx.omarmartinez.criminalintent.fragments.crimedetail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import mx.omarmartinez.criminalintent.models.Crime
 import mx.omarmartinez.criminalintent.databinding.FragmentCrimeDetailBinding
 import java.util.Date
 import java.util.UUID
