@@ -5,15 +5,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import mx.omarmartinez.criminalintent.R
 import mx.omarmartinez.criminalintent.models.Crime
 import mx.omarmartinez.criminalintent.databinding.FragmentCrimeDetailBinding
 import java.util.Date
@@ -32,6 +36,17 @@ class CrimeDetailFragment : Fragment() {
         get() = checkNotNull(_binding){
             "Cannot access binding because is null. Is the view visible?"
         }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(this){
+            if(binding.crimeTitle.text.toString().isBlank()){
+                Toast.makeText(context, R.string.crime_title_blank, Toast.LENGTH_SHORT).show()
+            } else{
+                findNavController().popBackStack()
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
