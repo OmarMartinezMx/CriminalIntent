@@ -21,7 +21,6 @@ class CrimeRepository private constructor(
         CrimeDatabase::class.java,
         DATABASE_NAME
     )
-        .createFromAsset(DATABASE_NAME)
         .build()
 
     fun getCrimes(): Flow<List<Crime>> = database.crimeDAO().getCrimes()
@@ -30,6 +29,9 @@ class CrimeRepository private constructor(
         coroutineScope.launch {
             database.crimeDAO().updateCrime(crime)
         }
+    }
+    suspend fun addCrime(crime: Crime){
+        database.crimeDAO().addCrime(crime)
     }
 
     companion object{

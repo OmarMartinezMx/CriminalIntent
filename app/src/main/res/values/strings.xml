@@ -7,4 +7,6 @@
     <string name="crime_solved_label">Solved</string>
 
     <string name="crime_title_blank">You need a crime title!</string>
+
+    <string name="new_crime">New Crime</string>
 </resources>
