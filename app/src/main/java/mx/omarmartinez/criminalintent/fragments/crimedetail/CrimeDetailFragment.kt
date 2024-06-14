@@ -150,7 +150,7 @@ class CrimeDetailFragment : Fragment() {
                 crimeTitle.setText(crime.title)
             }
 
-            crimeDate.text = crime.date.toString()
+            crimeDate.text = DateFormat.getDateInstance().format(crime.date)
             crimeSolved.isChecked = crime.isSolved
 
             crimeDate.setOnClickListener {
