@@ -1,11 +1,17 @@
 package mx.omarmartinez.criminalintent.fragments.crimedetail
 
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
+import android.net.Uri
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -20,6 +26,7 @@ import mx.omarmartinez.criminalintent.R
 import mx.omarmartinez.criminalintent.models.Crime
 import mx.omarmartinez.criminalintent.databinding.FragmentCrimeDetailBinding
 import mx.omarmartinez.criminalintent.fragments.datepicker.DatePickerFragment
+import java.text.DateFormat
 import java.util.Date
 
 
@@ -30,6 +37,14 @@ class CrimeDetailFragment : Fragment() {
 
     private val crimeDetailViewModel: CrimeDetailViewModel by viewModels {
         CrimeDetailViewModelFactory(args.crimeId)
+    }
+
+    private val selectSuspect = registerForActivityResult(
+        ActivityResultContracts.PickContact()
+    ){
+        it?.let {
+            parseContactSelection(it)
+        }
     }
 
     private val binding
@@ -73,6 +88,13 @@ class CrimeDetailFragment : Fragment() {
                     oldCrime.copy(isSolved = isChecked)
                 }
             }
+
+            crimeSuspect.setOnClickListener {
+                selectSuspect.launch(null)
+            }
+
+            val selectSuspectIntent = selectSuspect.contract.createIntent(requireContext(), null)
+            crimeSuspect.isEnabled = canResolveIntent(selectSuspectIntent)
         }
 
         viewLifecycleOwner.lifecycleScope.launch{
@@ -104,7 +126,70 @@ class CrimeDetailFragment : Fragment() {
                     CrimeDetailFragmentDirections.selectDate(crime.date)
                 )
             }
+
+            crimeSuspect.text = crime.suspect.ifEmpty {
+                getString(R.string.crime_suspect_text)
+            }
+
+            crimeReport.setOnClickListener {
+                val reportIntent = Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_TEXT, getCrimeReport(crime))
+                    putExtra(Intent.EXTRA_SUBJECT, getString(R.string.crime_report_subject))
+                }
+
+                val chooserIntent = Intent.createChooser(
+                    reportIntent,
+                    getString(R.string.send_report)
+                )
+
+                startActivity(chooserIntent )
+            }
         }
+    }
+
+    private fun getCrimeReport(crime: Crime): String{
+        val solvedString = if(crime.isSolved){
+            getString(R.string.crime_report_solved)
+        } else{
+            getString(R.string.crime_report_unsolved)
+        }
+
+        val dateString = DateFormat.getDateInstance().format(crime.date)
+
+        val suspectText = if(crime.suspect.isBlank()){
+            getString(R.string.crime_report_no_suspect)
+        } else{
+            getString(R.string.crime_report_suspect, crime.suspect)
+        }
+
+        return getString(R.string.crime_report, crime.title, dateString, solvedString, suspectText)
+    }
+
+    private fun parseContactSelection(contactUri: Uri){
+        val queryFields = arrayOf(ContactsContract.Contacts.DISPLAY_NAME)
+
+        val queryCursor = requireActivity().contentResolver
+            .query(contactUri, queryFields, null, null, null)
+
+        queryCursor?.use {
+            if(it.moveToFirst()){
+                val suspect = it.getString(0)
+                crimeDetailViewModel.updateCrime { oldCrime ->
+                    oldCrime.copy(suspect = suspect)
+                }
+            }
+        }
+    }
+
+    private fun canResolveIntent(intent: Intent): Boolean {
+        val packageManager: PackageManager = requireActivity().packageManager
+        val resolveActivity: ResolveInfo? = packageManager.resolveActivity(
+            intent,
+            PackageManager.MATCH_DEFAULT_ONLY
+        )
+
+        return resolveActivity != null
     }
 
     override fun onDestroyView() {
