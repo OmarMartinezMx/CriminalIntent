@@ -242,11 +242,13 @@ class CrimeDetailFragment : Fragment() {
 
                     binding.crimePhoto.setImageBitmap(scaleBitmap)
                     binding.crimePhoto.tag = photoFileName
+                    binding.crimePhoto.contentDescription = getString(R.string.crime_photo_image_description)
                 }
             }
         } else{
             binding.crimePhoto.setImageBitmap(null)
             binding.crimePhoto.tag = null
+            binding.crimePhoto.contentDescription = getString(R.string.crime_photo_no_image)
         }
     }
 

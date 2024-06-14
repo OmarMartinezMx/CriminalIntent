@@ -20,12 +20,14 @@
                 android:layout_height="80dp"
                 android:id="@+id/crime_photo"
                 android:scaleType="centerInside"
-                android:background="@color/black" />
+                android:background="@color/black"
+                android:contentDescription="@string/crime_photo_no_image"/>
             <ImageButton
                 android:id="@+id/crime_camera"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_camera" />
+                android:src="@drawable/ic_camera"
+                android:contentDescription="@string/crime_photo_description"/>
         </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
